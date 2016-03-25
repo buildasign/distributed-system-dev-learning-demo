@@ -1,0 +1,60 @@
+﻿@model eCommDemo.Controllers.ListingsModel
+
+@{
+    ViewBag.Title = "Listings for " + @Model.Category;
+}
+
+@section styles{
+    <style>
+        div.list-wrapper {
+            width: 100%;
+        }
+
+        div.div-listings {
+            width: 1200px;
+            margin: auto;
+        }
+
+        div.div-listings div {
+            margin: 10px;
+        }
+
+        span.item-name {  }
+        span.item-size { }
+        span.item-price { }
+
+        div.div-listings div span {
+        }
+
+        div.div-listings div a {
+        }
+    </style>
+}
+
+@section scripts
+{
+    <script>
+        
+    </script>
+}
+
+<h2>Listings for @Model.Category</h2>
+
+<div class="list-wrapper clearfix">
+    <div class="div-listings">
+        @foreach (var item in Model.Listings)
+        {
+            <div>
+                <img src="@item.Image" />
+                <br />
+                <span>@item.Name</span>
+                <br/>
+                <span>@item.Size</span>
+                <br/>
+                <span>@item.Price.ToString("c2")</span>
+
+                <a href="/Listings/@item.Id" class="js-add-to-cart"><img src="/Images/add-to-cart.png" alt="Add to Cart"/></a>
+            </div>
+        }
+    </div>
+</div>

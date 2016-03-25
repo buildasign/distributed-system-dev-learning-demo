@@ -274,6 +274,10 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Images\Categories\Canvas.png" />
     <Content Include="Images\Categories\WallDisplay.png" />
+    <Content Include="Images\Listings\arizona.jpg" />
+    <Content Include="Images\Listings\new_mexico.jpg" />
+    <Content Include="Images\Listings\oregon.jpg" />
+    <Content Include="Images\Listings\utah.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -319,10 +323,10 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Listings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\Listings\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
