@@ -16,20 +16,51 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
+using System;
+using MassTransit;
+using StructureMap;
 using StructureMap.Graph;
-namespace eCommDemo.DependencyResolution {
-    public static class IoC {
-        public static IContainer Initialize() {
-            ObjectFactory.Initialize(x =>
-                        {
-                            x.Scan(scan =>
-                                    {
-                                        scan.TheCallingAssembly();
-                                        scan.WithDefaultConventions();
-                                    });
-            //                x.For<IExample>().Use<Example>();
-                        });
-            return ObjectFactory.Container;
+namespace eCommDemo.DependencyResolution
+{
+    public static class IoC
+    {
+        public static IContainer Initialize()
+        {
+            var bus = Bus.Factory.CreateUsingRabbitMq(x =>
+            {
+                var host = x.Host(new Uri("rabbitmq://localhost"), h =>
+                {
+                    //                    h.Username("guest");
+                    //                    h.Password("guest");
+                });
+            });
+            var container = new Container(x =>
+            {
+                x.For<IBusControl>().Use(bus);
+                x.For<IEnterpriseBus>().Use<EnterpriseBus>();
+            });
+
+            return container;
         }
+    }
+
+    public interface IEnterpriseBus
+    {
+        void Publish<T>(T message) where T : class;
+    }
+
+    public class EnterpriseBus : IEnterpriseBus
+    {
+        private readonly IBusControl _busControl;
+
+        public EnterpriseBus(IBusControl busControl)
+        {
+            _busControl = busControl;
+        }
+        public void Publish<T>(T message) where T : class
+        {
+            _busControl.Publish<T>(message);
+        }
+
     }
 }
