@@ -4,8 +4,62 @@
     ViewBag.Title = "Checkout";
 }
 
+@section styles
+{
+    <style>
+
+    </style>
+}
 <h2>Checkout</h2>
 
 <div>
-    
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(m=>m.CartId)
+        <table>
+            <tr>
+                <td>@Html.LabelFor(m => m.Name)</td>
+                <td>@Html.TextBoxFor(m=>m.Name)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m=>m.Email)</td>
+                <td>@Html.TextBoxFor(m => m.Email)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Address)</td>
+                <td>@Html.TextBoxFor(m => m.Address)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.City)</td>
+                <td>@Html.TextBoxFor(m => m.City)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.State)</td>
+                <td>@Html.TextBoxFor(m => m.State)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Zip)</td>
+                <td>@Html.TextBoxFor(m => m.Zip)</td>
+            </tr>
+            <tr>
+                <td colspan="2"><hr/></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.CcNumber)</td>
+                <td>@Html.TextBoxFor(m => m.CcNumber)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.CcExpDate)</td>
+                <td>@Html.TextBoxFor(m => m.CcExpDate)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.CcCvv)</td>
+                <td>@Html.TextBoxFor(m => m.CcCvv)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="image" src="/Images/checkout.png"/></td>
+            </tr>
+        </table>
+    }
 </div>
