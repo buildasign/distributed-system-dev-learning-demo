@@ -1,0 +1,26 @@
+﻿@model eCommDemo.Controllers.CategoriesModel
+
+@{
+    ViewBag.Title = "Categories";
+}
+
+@section styles{
+    <style>
+        div.cat-wrapper { width: 100% }
+        div.div-categories { width: 600px;margin: auto; }
+        div.div-categories div { float: left; margin: 10px;}
+    </style>
+}
+
+<h2>Categories</h2>
+
+<div class="cat-wrapper">
+    <div class="div-categories">
+        @foreach (var item in Model.Categories)
+        {
+            <div>
+                <a href="/Listings/@item.Id"><img src="@item.Image" /><span>@item.Name</span></a>
+            </div>
+        }
+    </div>
+</div>
