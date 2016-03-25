@@ -272,6 +272,8 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Images\Categories\Canvas.png" />
+    <Content Include="Images\Categories\WallDisplay.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -320,7 +322,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\Categories\" />
     <Folder Include="Images\Listings\" />
   </ItemGroup>
   <ItemGroup>

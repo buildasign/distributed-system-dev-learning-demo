@@ -7,20 +7,26 @@
 @section styles{
     <style>
         div.cat-wrapper { width: 100% }
-        div.div-categories { width: 600px;margin: auto; }
-        div.div-categories div { float: left; margin: 10px;}
+        div.div-categories {width: 1200px;margin: auto; }
+        div.div-categories div {float: left;margin: 10px;}
+        div.div-categories div span { font-size: larger; font-weight: bold }
     </style>
 }
 
 <h2>Categories</h2>
 
-<div class="cat-wrapper">
+<div class="cat-wrapper clearfix">
     <div class="div-categories">
         @foreach (var item in Model.Categories)
         {
             <div>
-                <a href="/Listings/@item.Id"><img src="@item.Image" /><span>@item.Name</span></a>
+                <a href="/Listings/@item.Id">
+                    <img src="@item.Image"/>
+                    <br/>
+                    <span>@item.Name</span>
+                </a>
             </div>
         }
     </div>
 </div>
+<div class="clearfix"></div>
