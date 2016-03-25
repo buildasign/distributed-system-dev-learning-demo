@@ -272,6 +272,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Images\add-to-cart.png" />
     <Content Include="Images\Categories\Canvas.png" />
     <Content Include="Images\Categories\WallDisplay.png" />
     <Content Include="Images\Listings\arizona.jpg" />
