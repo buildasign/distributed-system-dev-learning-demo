@@ -1,51 +1,80 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
+using eComm.Domain;
+using eCommApi.Common;
+using eCommApi.Models;
+using Raven.Client;
 
 namespace eCommApi.Controllers
 {
+    [RoutePrefix("cart/")]
     public class CartController : ApiController
     {
-        // GET api/cart/<guid>
-        public IEnumerable<CartData> Get(Guid sessionId)
+        private readonly IDocumentStore _documentStore;
+
+        public CartController(IDocumentStore documentStore)
         {
-            //TODO: get from Raven
-            return new CartData[] {new CartData { Quantity = 1, SKU = "CNV-123" }, new CartData { Quantity = 1, SKU = "CNV-124" }, };
+            _documentStore = documentStore;
         }
 
+
         // GET api/cart/5
-        public CartData Get(int id)
+        [Route("{tokenId}")]
+        public Cart Get(Guid tokenId)
         {
-            //TODO: get from Raven
-            return new CartData {Quantity = 1, SKU = "CNV-123"};
+            Cart cart;
+            using (var session = _documentStore.OpenSession())
+            {
+                cart = session.Query<Cart>().FirstOrDefault(x => x.TokenId == tokenId);
+            }
+
+            return cart;
         }
 
         // POST api/cart
-        public int Post([FromBody]CartData data)
+        [Route("")]
+        public CartToken Post()
         {
-            //TODO: add to Raven
-            return 1;   //TODO: return cart id
+            var cart = new Cart
+            {
+                TokenId = CombGuid.Generate()
+            };
+
+            using (var session = _documentStore.OpenSession())
+            {
+                session.Store(cart);
+
+                session.SaveChanges();
+            }
+
+            return new CartToken(cart.TokenId, DateTime.Now);
         }
 
-        // PUT api/cart/5
-        public void Put(int id, [FromBody]CartData data)
+        [Route("{tokenId}/payment")]
+        public PaymentAuth Post(Guid tokenId, CreatePayment createPayment)
         {
-            //TODO: update in Raven
+            PaymentAuth auth;
+            using (var session = _documentStore.OpenSession())
+            {
+                var cart = session.Query<Cart>()
+                    .FirstOrDefault(x => x.TokenId == tokenId);
+
+                
+                
+                cart.AuthCode = "123456789";
+
+                auth = new PaymentAuth
+                {
+                    AuthCode =  cart.AuthCode,
+                    Authorized = true
+                };
+
+                session.SaveChanges();
+            }
+
+            return auth;
         }
 
-        // DELETE api/cart/5
-        public void Delete(int id, [FromBody]CartData data)
-        {
-            //TODO: remove from Raven
-        }
-
-    }
-
-    public class CartData
-    {
-        public Guid SessionId { get; set; }
-        public string SKU { get; set; }
-        public int Quantity { get; set; }
-        public int CartItemId { get; set; }
     }
 }

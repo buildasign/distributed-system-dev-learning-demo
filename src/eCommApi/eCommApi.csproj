@@ -152,7 +152,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -187,14 +186,21 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Common\CombGuid.cs" />
     <Compile Include="Configuration\DatabaseRegistry.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\CartItemController.cs" />
     <Compile Include="Controllers\CatalogController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CartToken.cs" />
+    <Compile Include="Models\CreateCartItem.cs" />
+    <Compile Include="Models\CreatePayment.cs" />
+    <Compile Include="Models\PaymentAuth.cs" />
+    <Compile Include="Models\UpdateCartItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -264,7 +270,12 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\jquery-2.2.1.min.map" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\eComm.Domain\eComm.Domain.csproj">
+      <Project>{006B4956-5CC3-4B01-B2B6-5EF203145F9F}</Project>
+      <Name>eComm.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
