@@ -17,9 +17,10 @@
 
 
 using System;
+using eCommApi.Configuration;
 using MassTransit;
 using StructureMap;
-using StructureMap.Graph;
+
 namespace eCommDemo.DependencyResolution
 {
     public static class IoC
@@ -38,6 +39,7 @@ namespace eCommDemo.DependencyResolution
             {
                 x.For<IBusControl>().Use(bus);
                 x.For<IEnterpriseBus>().Use<EnterpriseBus>();
+                x.AddRegistry<DatabaseRegistry>();
             });
 
             return container;
@@ -57,10 +59,10 @@ namespace eCommDemo.DependencyResolution
         {
             _busControl = busControl;
         }
+
         public void Publish<T>(T message) where T : class
         {
             _busControl.Publish<T>(message);
         }
-
     }
 }
