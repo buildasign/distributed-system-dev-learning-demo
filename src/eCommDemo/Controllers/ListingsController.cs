@@ -11,8 +11,8 @@ namespace eCommDemo.Controllers
         // GET: Listings
         public ActionResult Index(int id)
         {
-            var sessionId = this.Request.Cookies["usersession"];
-            if (string.IsNullOrEmpty(sessionId))
+            var sessionCookie = this.Request.Cookies["usersession"];
+            if (sessionCookie!=null && string.IsNullOrEmpty(sessionCookie.Value))
             {
                 this.Response.Cookies.Add(new HttpCookie("usersession", this.Session.SessionID));
             }

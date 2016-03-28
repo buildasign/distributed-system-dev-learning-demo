@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 namespace eCommDemo.Controllers
 {
-    public class CheckoutController : Controller
+    public class CheckoutController : BaseController
     {
         [HttpGet]
         // GET: Checkout

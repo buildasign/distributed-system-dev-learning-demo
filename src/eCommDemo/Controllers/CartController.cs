@@ -6,17 +6,33 @@ using System.Web.Mvc;
 
 namespace eCommDemo.Controllers
 {
-    public class CartController : Controller
+    public class CartController : BaseController
     {
         // GET: Cart
         public ActionResult Index()
         {
-            var model = new CartModel();
-            model.Items = new List<CartItem>
+            var model = new CartModel
             {
-                new CartItem {SKU = "CNV-123", Description = "Arizona 16x20", Price = 100m, Discount = 0, Quantity = 1, Image = "/Images/Listings/arizona.jpg"}
+                Items = new List<CartItem>
+                {
+                    new CartItem
+                    {
+                        SKU = "CNV-123",
+                        Description = "Arizona 16x20",
+                        Price = 100m,
+                        Discount = 0,
+                        Quantity = 1,
+                        Image = "/Images/Listings/arizona.jpg"
+                    }
+                }
             };
             return View(model);
+        }
+
+        public JsonResult AddToCart(CartItem item)
+        {
+            //TODO: call API
+            return Json(new {success = true});
         }
     }
 
@@ -41,10 +57,7 @@ namespace eCommDemo.Controllers
             get { return Items.Sum(ci => ci.Discount); }
         }
 
-        public decimal Total
-        {
-            get { return Subtotal - Discounts; }
-        }
+        public decimal Total => Subtotal - Discounts;
     }
 
     public class CartItem
