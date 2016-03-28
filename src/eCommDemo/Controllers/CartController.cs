@@ -1,8 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Net.Http;
 using System.Web.Mvc;
+using eComm.Domain;
+using eComm.Domain.Models;
+using eCommDemo.Common;
 
 namespace eCommDemo.Controllers
 {
@@ -11,25 +13,50 @@ namespace eCommDemo.Controllers
         // GET: Cart
         public ActionResult Index()
         {
-            var model = new CartModel();
-            model.Items = new List<CartItem>
-            {
-                new CartItem {SKU = "CNV-123", Description = "Arizona 16x20", Price = 100m, Discount = 0, Quantity = 1, Image = "/Images/Listings/arizona.jpg"}
-            };
+            var cartToken = CookieUtil.GetCartToken();
+
+            var url = $"cart/{cartToken}/item";
+
+            var request = HttpUtil.CreateRequest(url, HttpMethod.Get);
+            var cart = HttpUtil.Send<Cart>(request);
+
+            var model = new CartModel(cart);
+
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AddToCart(string sku)
+        {
+            var cartItem = new CreateCartItem
+            {
+                Quantity = 1,
+                SKU = sku
+            };
+
+            var cartToken = CookieUtil.GetCartToken();
+            var url = $"cart/{cartToken}/item";
+            var request = HttpUtil.CreateRequest(url, HttpMethod.Post, cartItem);
+            var itemId = HttpUtil.Send<string>(request);
+
+            return Json(new
+            {
+                Success = true,
+                Id = itemId
+            });
         }
     }
 
     public class CartModel
     {
-        public CartModel()
+        public CartModel(Cart cart)
         {
-            Items = new List<CartItem>();
-            CartId = Guid.NewGuid();
+            Items = cart.Items;
+            CartId = cart.Id;
         }
 
-        public Guid CartId { get; set; }
-        public List<CartItem> Items { get; set; }
+        public int CartId { get; set; }
+        public IList<CartItem> Items { get; set; }
 
         public decimal Subtotal
         {
@@ -45,15 +72,5 @@ namespace eCommDemo.Controllers
         {
             get { return Subtotal - Discounts; }
         }
-    }
-
-    public class CartItem
-    {
-        public string SKU { get; set; }
-        public string Description { get; set; }
-        public string Image { get; set; }
-        public int Quantity { get; set; }
-        public decimal Price { get; set; }
-        public decimal Discount { get; set; }
     }
 }

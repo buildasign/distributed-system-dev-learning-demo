@@ -9,7 +9,7 @@ namespace eCommDemo.Controllers
     public class ListingsController : Controller
     {
         // GET: Listings
-        public ActionResult Index(int id)
+        public ActionResult Index(int? id)
         {
 //            var sessionId = this.Request.Cookies["usersession"];
 //            if (string.IsNullOrEmpty(sessionId))
@@ -20,7 +20,7 @@ namespace eCommDemo.Controllers
             var model = new ListingsModel();
             var query = new ListingQuery();
             model.Category = "Canvas";
-            model.Listings = query.GetListingsByCategory(id);
+            model.Listings = query.GetListingsByCategory(0);
             return View(model);
         }
     }

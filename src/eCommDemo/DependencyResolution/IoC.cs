@@ -17,6 +17,8 @@
 
 
 using System;
+using AutoMapper;
+using eCommDemo.Common;
 using MassTransit;
 using StructureMap;
 
@@ -26,6 +28,9 @@ namespace eCommDemo.DependencyResolution
     {
         public static IContainer Initialize()
         {
+
+            
+
             var bus = Bus.Factory.CreateUsingRabbitMq(x =>
             {
                 var host = x.Host(new Uri("rabbitmq://localhost"), h =>
@@ -38,12 +43,22 @@ namespace eCommDemo.DependencyResolution
             {
                 x.For<IBusControl>().Use(bus);
                 x.For<IEnterpriseBus>().Use<EnterpriseBus>();
+                x.For<IMapper>().Use(m => NewMapperSetup().CreateMapper());
             });
 
             return container;
         }
+        private static MapperConfiguration NewMapperSetup()
+        {
+            return new MapperConfiguration(s =>
+            {
+                s.AddProfile<MapperProfile>();
+
+            });
+        }
     }
 
+  
     public interface IEnterpriseBus
     {
         void Publish<T>(T message) where T : class;

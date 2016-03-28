@@ -40,7 +40,13 @@
 
         function addToCart(parameters) {
             var item = $(this).attr("sku");
-            alert('Item ' + item + ' added to cart');
+
+            $.post('@Url.Action("AddToCart", "Cart")', { sku: item }, function(data) {
+                if (data.Success) {
+                    alert("item added")
+                }
+            });
+
             return false;
         }
     </script>

@@ -1,29 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
+using eComm.Domain;
+using eCommDemo.Common;
 
 namespace eCommDemo.Controllers
 {
     public class CategoryController : Controller
     {
+        private readonly IMapper _mapper;
+
+        public CategoryController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
+
         // GET: Category
         public ActionResult Index()
         {
-            var model = new CategoriesModel();
-            return View(model);
+
+            var request = HttpUtil.CreateRequest("catalog/0", HttpMethod.Get);
+
+            var modelData = _mapper.Map<IEnumerable<ListingData>, IEnumerable<Category>>(HttpUtil.Send<IEnumerable<ListingData>>(request));
+
+            return View(new CategoriesModel(modelData));
         }
     }
 
     public class CategoriesModel
     {
-        public CategoriesModel()
+        public CategoriesModel(IEnumerable<Category> category)
         {
-            Categories = new List<Category>(new[] { new Category { Id = 1, Name = "Single Canvas", Image = "/Images/Categories/Canvas.png" }, new Category { Id = 2, Name = "Wall Display", Image = "/Images/Categories/WallDisplay.png" }});
+            Categories = category;
         }
 
-        public List<Category> Categories { get; set; }
+        public IEnumerable<Category> Categories { get; set; }
     }
 
     public class Category

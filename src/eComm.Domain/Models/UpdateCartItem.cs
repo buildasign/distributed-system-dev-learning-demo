@@ -1,4 +1,4 @@
-﻿namespace EcommApi.Models
+﻿namespace eComm.Domain.Models
 {
     public class UpdateCartItem
     {

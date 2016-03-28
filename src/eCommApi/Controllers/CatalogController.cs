@@ -1,62 +1,97 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
+using eComm.Domain;
+using Raven.Client;
 
 namespace EcommApi.Controllers
 {
+    [RoutePrefix("catalog")]
     public class CatalogController : ApiController
     {
+        private readonly IDocumentStore _documentStore;
+
+        public CatalogController(IDocumentStore documentStore)
+        {
+            _documentStore = documentStore;
+        }
+
+
+        [Route("{categoryId}")]
         public IEnumerable<ListingData> Get(int categoryId)
         {
-            //TODO: return from Raven DB
-            return new[]
+            List<ListingData> listingData;
+            using (var session = _documentStore.OpenSession())
             {
-                new ListingData
+                listingData = session.Query<ListingData>().ToList();
+            }
+
+            if (!listingData.Any())
+            {
+                AddItemsToCatalog();
+                using (var session = _documentStore.OpenSession())
                 {
-                    SKU = "CNV-123",
-                    Height= 16,
-                    Width = 20,
-                    Name = "Arizona",
-                    Image = "/Images/Listings/arizona.jpg",
-                    Price = 100m
-                },
-                new ListingData
+                    listingData = session
+                        .Query<ListingData>()
+                        .Customize(x => x.WaitForNonStaleResults(TimeSpan.FromSeconds(5)))
+                        .ToList();
+                }
+            }
+
+
+            return listingData;
+        }
+
+        private void AddItemsToCatalog()
+        {
+
+            using (var session = _documentStore.OpenSession())
+            {
+
+
+                //TODO: return from Raven DB
+                session.Store(
+                    new ListingData
+                    {
+                        SKU = "CNV-123",
+                        Height = 16,
+                        Width = 20,
+                        Name = "Arizona",
+                        Image = "/Images/Listings/arizona.jpg",
+                        Price = 100m
+                    });
+                session.Store(new ListingData
                 {
                     SKU = "CNV-124",
-                    Height= 20,
+                    Height = 20,
                     Width = 30,
                     Name = "Utah",
                     Image = "/Images/Listings/utah.jpg",
                     Price = 140m
-                },
-                new ListingData
+                });
+                session.Store(new ListingData
                 {
                     SKU = "CNV-125",
-                    Height= 16,
+                    Height = 16,
                     Width = 20,
                     Name = "Oregon",
                     Image = "/Images/Listings/oregon.jpg",
                     Price = 100m
-                },
-                new ListingData
+                });
+
+                session.Store(new ListingData
                 {
                     SKU = "CNV-126",
-                    Height= 30,
+                    Height = 30,
                     Width = 40,
                     Name = "New Mexico",
                     Image = "/Images/Listings/new_mexico.jpg",
                     Price = 160m
-                }
-            };
-        }
-    }
+                });
 
-    public class ListingData
-    {
-        public string SKU { get; set; }
-        public string Name { get; set; }
-        public int Height { get; set; }
-        public int Width { get; set; }
-        public string Image { get; set; }
-        public decimal Price { get; set; }
+                session.SaveChanges();
+            }
+        }
     }
 }

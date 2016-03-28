@@ -2,8 +2,8 @@
 using System.Web.Http;
 using System.Linq;
 using eComm.Domain;
+using eComm.Domain.Models;
 using EcommApi.Common;
-using EcommApi.Models;
 using Raven.Client;
 
 namespace EcommApi.Controllers

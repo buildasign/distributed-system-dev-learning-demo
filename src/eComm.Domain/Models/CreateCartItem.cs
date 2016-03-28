@@ -1,8 +1,8 @@
-namespace EcommApi.Models
+namespace eComm.Domain.Models
 {
     public class CreateCartItem
     {
-        public int ProductId { get; set; }
+        public string SKU { get; set; }
         public int Quantity { get; set; }
     }
 }

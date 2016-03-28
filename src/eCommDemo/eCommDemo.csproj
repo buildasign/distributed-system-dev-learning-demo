@@ -48,6 +48,10 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
       <Private>True</Private>
@@ -241,6 +245,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />
+    <Compile Include="Common\CookieUtil.cs" />
+    <Compile Include="Common\HttpUtil.cs" />
+    <Compile Include="Common\MapperProfile.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
@@ -340,6 +347,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\eComm.Domain\eComm.Domain.csproj">
+      <Project>{006B4956-5CC3-4B01-B2B6-5EF203145F9F}</Project>
+      <Name>eComm.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\eCommDemo.Messages\eCommDemo.Messages.csproj">
       <Project>{8A909D40-1E92-4B31-9B67-75B799CEDBB2}</Project>
       <Name>eCommDemo.Messages</Name>

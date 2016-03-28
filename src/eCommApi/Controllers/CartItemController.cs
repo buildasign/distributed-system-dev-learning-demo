@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using eComm.Domain;
+using eComm.Domain.Models;
 using EcommApi.Common;
-using EcommApi.Models;
 using Raven.Client;
 
 namespace EcommApi.Controllers
@@ -58,7 +58,7 @@ namespace EcommApi.Controllers
                 cartItem = new CartItem
                 {
                     Id = CombGuid.Generate(),
-                    ProductId = createCartItem.ProductId,
+                    SKU = createCartItem.SKU,
                     Quantity = createCartItem.Quantity,
                     TokenId = tokenId
                 };
@@ -99,5 +99,26 @@ namespace EcommApi.Controllers
             return id.ToString();
         }
 
+        [Route("{id}/")]
+        public string Delete(Guid tokenId, Guid id)
+        {
+            using (var session = _documentStore.OpenSession())
+            {
+                var cart = session.Query<Cart>().FirstOrDefault(x => x.TokenId == tokenId);
+
+                if (cart != null)
+                {
+                    var item = cart.Items.FirstOrDefault(x => x.Id == id);
+
+                    cart.Items.Remove(item);
+
+
+                    session.SaveChanges();
+
+                }
+            }
+
+            return id.ToString();
+        }
     }
 }
