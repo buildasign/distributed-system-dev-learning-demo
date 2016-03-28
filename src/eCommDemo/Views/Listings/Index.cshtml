@@ -40,7 +40,21 @@
 
         function addToCart(parameters) {
             var item = $(this).attr("sku");
-            alert('Item ' + item + ' added to cart');
+            var data = { "SKU": item, "Quantity": 1 };
+            $.ajax({
+                type: "POST",
+                url: "/Cart/AddToCart",
+                cache: false,
+                data: data,
+                success: function() {
+                    alert('Item ' + item + ' added to cart');
+                },
+                error: function(xhr, status, error) {
+                    alert('Item could not added to cart: ' + status + '\r\n' + error);
+                },
+                dataType: "json"
+            });
+
             return false;
         }
     </script>

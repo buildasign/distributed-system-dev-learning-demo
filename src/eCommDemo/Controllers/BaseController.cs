@@ -6,7 +6,7 @@ namespace eCommDemo.Controllers
 {
     public abstract class BaseController : Controller
     {
-        protected BaseController()
+        protected void SetCartCookie()
         {
             Guid cartId;
             var cartCookie = Request.Cookies["userCart"];
