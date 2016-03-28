@@ -11,12 +11,19 @@ namespace eCommDemo.Controllers
         // GET: Cart
         public ActionResult Index()
         {
+            //TODO: pull from cart api
             var model = new CartModel();
             model.Items = new List<CartItem>
             {
                 new CartItem {SKU = "CNV-123", Description = "Arizona 16x20", Price = 100m, Discount = 0, Quantity = 1, Image = "/Images/Listings/arizona.jpg"}
             };
             return View(model);
+        }
+
+        public JsonResult AddToCart(AddToCartItem item)
+        {
+            //TODO: call cart api
+            return Json(new {success = true});
         }
     }
 
@@ -55,5 +62,12 @@ namespace eCommDemo.Controllers
         public int Quantity { get; set; }
         public decimal Price { get; set; }
         public decimal Discount { get; set; }
+    }
+
+    public class AddToCartItem
+    {
+        public Guid CartId { get; set; }
+        public string SKU { get; set; }
+        public int Quantity { get; set; }
     }
 }

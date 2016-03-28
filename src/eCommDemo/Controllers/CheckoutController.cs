@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 namespace eCommDemo.Controllers
 {
-    public class CheckoutController : Controller
+    public class CheckoutController : BaseController
     {
         [HttpGet]
         // GET: Checkout
@@ -16,8 +16,11 @@ namespace eCommDemo.Controllers
         [HttpPost]
         public ActionResult Index(CheckoutModel id)
         {
+            //TODO: call payment api
+            //TODO: send order message
             var model = new ThankYouModel {OrderNumber = "123456"};
-
+            //after checkout, clear cart cookie
+            Response.Cookies.Remove("userCart");
             return View("ThankYou", model);
         }
     }
