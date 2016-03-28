@@ -3,14 +3,13 @@ using Raven.Client.Embedded;
 using StructureMap;
 using StructureMap.Pipeline;
 
-namespace eCommApi.Configuration
+namespace EcommApi.Configuration
 {
     public class DatabaseRegistry : Registry
     {
         public DatabaseRegistry()
         {
-            For<IDocumentStore>().Use(x => Create(x)).SetLifecycleTo(Lifecycles.ThreadLocal);
-            
+            For<IDocumentStore>().Singleton().Use(x => Create(x));            
         }
         
 
@@ -19,7 +18,7 @@ namespace eCommApi.Configuration
             
             var docStore = new EmbeddableDocumentStore
             {
-                RunInMemory = true                
+                DataDirectory = @"~\data"
             };
 
             docStore.Configuration.Storage.Voron.AllowOn32Bits = true;

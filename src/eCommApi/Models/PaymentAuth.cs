@@ -1,4 +1,4 @@
-﻿namespace eCommApi.Models
+﻿namespace EcommApi.Models
 {
     public class PaymentAuth
     {

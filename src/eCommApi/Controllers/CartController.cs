@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Http;
+using System.Linq;
 using eComm.Domain;
-using eCommApi.Common;
-using eCommApi.Models;
+using EcommApi.Common;
+using EcommApi.Models;
 using Raven.Client;
 
-namespace eCommApi.Controllers
+namespace EcommApi.Controllers
 {
-    [RoutePrefix("cart/")]
+    [RoutePrefix("cart")]
     public class CartController : ApiController
     {
         private readonly IDocumentStore _documentStore;

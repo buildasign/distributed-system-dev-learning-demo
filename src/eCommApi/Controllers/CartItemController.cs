@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using eComm.Domain;
-using eCommApi.Common;
-using eCommApi.Models;
+using EcommApi.Common;
+using EcommApi.Models;
 using Raven.Client;
 
-namespace eCommApi.Controllers
+namespace EcommApi.Controllers
 {
-    [RoutePrefix("cart/{tokenId}/")]
+    [RoutePrefix("cart/{tokenId}/item")]
     public class CartItemController : ApiController
     {
         private readonly IDocumentStore _documentStore;
@@ -62,6 +62,8 @@ namespace eCommApi.Controllers
                     Quantity = createCartItem.Quantity,
                     TokenId = tokenId
                 };
+
+                if(cart.Items == null) cart.Items = new List<CartItem>();
 
                 cart.Items.Add(cartItem);
 

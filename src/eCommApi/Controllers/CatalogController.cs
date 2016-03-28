@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 
-namespace eCommApi.Controllers
+namespace EcommApi.Controllers
 {
     public class CatalogController : ApiController
     {

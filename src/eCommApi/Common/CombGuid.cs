@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace eCommApi.Common
+namespace EcommApi.Common
 {
     public static class CombGuid
     {

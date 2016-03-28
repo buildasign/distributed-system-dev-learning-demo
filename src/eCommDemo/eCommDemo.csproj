@@ -340,10 +340,6 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\eCommApi\eCommApi.csproj">
-      <Project>{BD11CEC2-11F4-463D-8376-124FD5681823}</Project>
-      <Name>eCommApi</Name>
-    </ProjectReference>
     <ProjectReference Include="..\eCommDemo.Messages\eCommDemo.Messages.csproj">
       <Project>{8A909D40-1E92-4B31-9B67-75B799CEDBB2}</Project>
       <Name>eCommDemo.Messages</Name>
