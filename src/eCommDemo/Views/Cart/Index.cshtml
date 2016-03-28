@@ -4,10 +4,60 @@
     ViewBag.Title = "Cart";
 }
 
+@section styles{
+    <style>
+        table.tbl-cart td.cart-img img { height: 50px; }
+        table.tbl-cart th { padding: 10px; vertical-align: top;}
+        table.tbl-cart td { padding: 10px; vertical-align: top;}
+        table.tbl-cart td span.cart-dct { font-style: italic; text-decoration: line-through;color: silver; }
+        table.tbl-cart tr.subtotal span { font-style: italic;font-weight: bold; }
+        table.tbl-cart tr.discounts span {font-style: italic; text-decoration: line-through;}
+        table.tbl-cart tr.total span { font-style: italic;font-weight: bolder; }
+
+    </style>
+}
+
 <h2>Cart</h2>
 
 <div>
-    <div>
-        <a href="/Checkout/Index"><img src="/Images/checkout.png" alt="Checkout" /></a>
-    </div>
+    <table class="tbl-cart">
+        <tr>
+            <th></th>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td class="cart-img"><img src="@item.Image"/></td>
+                <td class="cart-dsc"><span>@item.Description</span></td>
+                <td class="cart-qty"><span>@item.Quantity</span></td>
+                <td class="cart-pri">
+                    <span>@item.Price.ToString("c2")</span>
+                    <br/>
+                    <span class="cart-dct">@item.Discount.ToString("c2")</span>
+                </td>
+            </tr>
+        }
+        <tr class="subtotal">
+            <td colspan="2"></td>
+            <td>Subtotal</td>
+            <td><span>@Model.Subtotal.ToString("c2")</span></td>
+        </tr>
+        <tr class="discounts">
+            <td colspan="2"></td>
+            <td>Discounts</td>
+            <td><span>@Model.Discounts.ToString("C2")</span></td>
+        </tr>
+        <tr class="total">
+            <td colspan="2"></td>
+            <td>Total</td>
+            <td><span>@Model.Total.ToString("C2")</span></td>
+        </tr>
+        <tr>
+            <td colspan="3"></td>
+            <td><a href="/Checkout/Index"><img src="/Images/checkout.png" alt="Checkout" /></a></td>
+        </tr>
+    </table>
 </div>

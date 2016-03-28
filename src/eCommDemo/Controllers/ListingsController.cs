@@ -36,7 +36,7 @@ namespace eCommDemo.Controllers
             {
                 new Listing
                 {
-                    Id = 123,
+                    SKU = "CNV-123",
                     Size="16x20",
                     Name = "Arizona",
                     Image = "/Images/Listings/arizona.jpg",
@@ -44,7 +44,7 @@ namespace eCommDemo.Controllers
                 },
                 new Listing
                 {
-                    Id = 124,
+                    SKU = "CNV-124",
                     Size="20x30",
                     Name = "Utah",
                     Image = "/Images/Listings/utah.jpg",
@@ -52,7 +52,7 @@ namespace eCommDemo.Controllers
                 },
                 new Listing
                 {
-                    Id = 125,
+                    SKU = "CNV-125",
                     Size="16x20",
                     Name = "Oregon",
                     Image = "/Images/Listings/oregon.jpg",
@@ -60,7 +60,7 @@ namespace eCommDemo.Controllers
                 },
                 new Listing
                 {
-                    Id = 126,
+                    SKU = "CNV-126",
                     Size="30x40",
                     Name = "New Mexico",
                     Image = "/Images/Listings/new_mexico.jpg",
@@ -72,7 +72,7 @@ namespace eCommDemo.Controllers
 
     public class Listing
     {
-        public int Id { get; set; }
+        public string SKU { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
         public string Size { get; set; }
