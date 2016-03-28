@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace eCommDemo.Controllers
@@ -11,7 +8,6 @@ namespace eCommDemo.Controllers
         // GET: Listings
         public ActionResult Index(int? id)
         {
-            SetCartCookie();
             var model = new ListingsModel();
             var query = new ListingQuery();
             model.Category = "Canvas";

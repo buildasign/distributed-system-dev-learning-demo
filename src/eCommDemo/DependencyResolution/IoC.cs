@@ -19,6 +19,7 @@
 using System;
 using AutoMapper;
 using eCommDemo.Common;
+using eCommDemo.Controllers;
 using MassTransit;
 using StructureMap;
 
@@ -44,6 +45,7 @@ namespace eCommDemo.DependencyResolution
                 x.For<IBusControl>().Use(bus);
                 x.For<IEnterpriseBus>().Use<EnterpriseBus>();
                 x.For<IMapper>().Use(m => NewMapperSetup().CreateMapper());
+                x.For<ICreateOrderMapper>().Use<CreateOrderMapper>();
             });
 
             return container;
