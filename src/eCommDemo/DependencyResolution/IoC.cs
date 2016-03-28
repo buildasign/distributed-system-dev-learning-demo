@@ -17,7 +17,6 @@
 
 
 using System;
-using eCommApi.Configuration;
 using MassTransit;
 using StructureMap;
 
@@ -39,7 +38,6 @@ namespace eCommDemo.DependencyResolution
             {
                 x.For<IBusControl>().Use(bus);
                 x.For<IEnterpriseBus>().Use<EnterpriseBus>();
-                x.AddRegistry<DatabaseRegistry>();
             });
 
             return container;
