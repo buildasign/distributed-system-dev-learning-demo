@@ -39,8 +39,9 @@
         });
 
         function addToCart(parameters) {
+            var cartId = getCookie("userCart");
             var item = $(this).attr("sku");
-            var data = { "SKU": item, "Quantity": 1 };
+            var data = { "SKU": item, "Quantity": 1, "CartId": cartId };
             $.ajax({
                 type: "POST",
                 url: "/Cart/AddToCart",
@@ -56,6 +57,12 @@
             });
 
             return false;
+        }
+
+        function getCookie(name) {
+            var re = new RegExp(name + "=([^;]+)");
+            var value = re.exec(document.cookie);
+            return (value != null) ? unescape(value[1]) : null;
         }
     </script>
 }
