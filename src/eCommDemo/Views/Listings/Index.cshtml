@@ -33,8 +33,16 @@
 
 @section scripts
 {
-    <script>
-        
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("a.js-add-to-cart").click(addToCart);
+        });
+
+        function addToCart(parameters) {
+            var item = $(this).attr("sku");
+            alert('Item ' + item + ' added to cart');
+            return false;
+        }
     </script>
 }
 
@@ -53,7 +61,7 @@
                 <br/>
                 <span>@item.Price.ToString("c2")</span>
 
-                <a href="/Listings/@item.Id" class="js-add-to-cart"><img src="/Images/add-to-cart.png" alt="Add to Cart"/></a>
+                <a href="/Listings/@item.SKU" sku="@item.SKU" class="js-add-to-cart"><img src="/Images/add-to-cart.png" alt="Add to Cart"/></a>
             </div>
         }
     </div>
