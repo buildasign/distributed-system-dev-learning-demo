@@ -6,17 +6,11 @@ using System.Web.Mvc;
 
 namespace eCommDemo.Controllers
 {
-    public class ListingsController : Controller
+    public class ListingsController : BaseController
     {
         // GET: Listings
         public ActionResult Index(int id)
         {
-//            var sessionId = this.Request.Cookies["usersession"];
-//            if (string.IsNullOrEmpty(sessionId))
-//            {
-//                this.Response.Cookies.Add(new HttpCookie("usersession", this.Session.SessionID));
-//            }
-
             var model = new ListingsModel();
             var query = new ListingQuery();
             model.Category = "Canvas";
