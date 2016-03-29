@@ -39,7 +39,10 @@ namespace eCommDemo.Controllers
 
             cartItemModels.ForEach(x =>
             {
-                x.Image = catalog.FirstOrDefault(i => i.SKU == x.SKU).Image;
+                var product = catalog.FirstOrDefault(i => i.SKU == x.SKU);
+                x.Image = product.Image;
+                x.Description = $"{product.Name} {product.Height}x{product.Width}";
+                x.Price = product.Price;
             });
 
 

@@ -19,6 +19,7 @@
 using System;
 using EcommApi.Common;
 using EcommApi.Configuration;
+using EcommApi.Controllers;
 using MassTransit;
 using StructureMap;
 
@@ -42,6 +43,7 @@ namespace EcommApi.DependencyResolution
                 x.AddRegistry<DatabaseRegistry>();
                 x.For<IBusControl>().Use(bus);
                 x.For<IEnterpriseBus>().Use<EnterpriseBus>();
+                x.For<ICreateOrderMapper>().Use<CreateOrderMapper>();
             });
 
             return container;

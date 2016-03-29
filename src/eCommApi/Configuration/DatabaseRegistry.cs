@@ -1,4 +1,5 @@
 ﻿using Raven.Client;
+using Raven.Client.Document;
 using Raven.Client.Embedded;
 using StructureMap;
 using StructureMap.Pipeline;
@@ -16,12 +17,13 @@ namespace EcommApi.Configuration
         private IDocumentStore Create(IContext container)
         {
             
-            var docStore = new EmbeddableDocumentStore
+            var docStore = new DocumentStore
             {
-                DataDirectory = @"~\data"
+                Url = @"http://localhost:8080",
+                DefaultDatabase = "DistributedSystemDemo"
             };
 
-            docStore.Configuration.Storage.Voron.AllowOn32Bits = true;
+            //docStore.Configuration.Storage.Voron.AllowOn32Bits = true;
 
             docStore.Initialize();
 

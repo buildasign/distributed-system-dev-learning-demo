@@ -1,5 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Web.Mvc;
+using eComm.Domain;
+using eComm.Domain.Models;
+using eCommDemo.Common;
 
 namespace eCommDemo.Controllers
 {
@@ -28,42 +33,48 @@ namespace eCommDemo.Controllers
     {
         public List<Listing> GetListingsByCategory(int categoryId)
         {
-            //TEMP CODE - replace with API call
-            return new List<Listing>
-            {
-                new Listing
-                {
-                    SKU = "CNV-123",
-                    Size="16x20",
-                    Name = "Arizona",
-                    Image = "/Images/Listings/arizona.jpg",
-                    Price = 100m
-                },
-                new Listing
-                {
-                    SKU = "CNV-124",
-                    Size="20x30",
-                    Name = "Utah",
-                    Image = "/Images/Listings/utah.jpg",
-                    Price = 140m
-                },
-                new Listing
-                {
-                    SKU = "CNV-125",
-                    Size="16x20",
-                    Name = "Oregon",
-                    Image = "/Images/Listings/oregon.jpg",
-                    Price = 100m
-                },
-                new Listing
-                {
-                    SKU = "CNV-126",
-                    Size="30x40",
-                    Name = "New Mexico",
-                    Image = "/Images/Listings/new_mexico.jpg",
-                    Price = 160m
-                }
-            };
+            var url = $"catalog/{categoryId}";
+            var request = HttpUtil.CreateRequest(url, HttpMethod.Get);
+            var response = HttpUtil.Send<IEnumerable<ListingData>>(request);
+
+            return response.Select(l => new Listing {Name = l.Name, Price = l.Price, Image = l.Image, SKU = l.SKU, Size = $"{l.Height}x{l.Width}"}).ToList();
+
+            ////TEMP CODE - replace with API call
+            //return new List<Listing>
+            //{
+            //    new Listing
+            //    {
+            //        SKU = "CNV-123",
+            //        Size="16x20",
+            //        Name = "Arizona",
+            //        Image = "/Images/Listings/arizona.jpg",
+            //        Price = 100m
+            //    },
+            //    new Listing
+            //    {
+            //        SKU = "CNV-124",
+            //        Size="20x30",
+            //        Name = "Utah",
+            //        Image = "/Images/Listings/utah.jpg",
+            //        Price = 140m
+            //    },
+            //    new Listing
+            //    {
+            //        SKU = "CNV-125",
+            //        Size="16x20",
+            //        Name = "Oregon",
+            //        Image = "/Images/Listings/oregon.jpg",
+            //        Price = 100m
+            //    },
+            //    new Listing
+            //    {
+            //        SKU = "CNV-126",
+            //        Size="30x40",
+            //        Name = "New Mexico",
+            //        Image = "/Images/Listings/new_mexico.jpg",
+            //        Price = 160m
+            //    }
+            //};
         }
     }
 
