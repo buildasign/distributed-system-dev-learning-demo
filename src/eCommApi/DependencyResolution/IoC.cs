@@ -16,7 +16,10 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
+using System;
+using EcommApi.Common;
 using EcommApi.Configuration;
+using MassTransit;
 using StructureMap;
 
 namespace EcommApi.DependencyResolution
@@ -25,7 +28,21 @@ namespace EcommApi.DependencyResolution
     {
         public static IContainer Initialize()
         {
-            var container = new Container(x => { x.AddRegistry<DatabaseRegistry>(); });
+            var bus = Bus.Factory.CreateUsingRabbitMq(x =>
+            {
+                var host = x.Host(new Uri("rabbitmq://localhost"), h =>
+                {
+                    //                    h.Username("guest");
+                    //                    h.Password("guest");
+                });
+            });
+
+            var container = new Container(x =>
+            {
+                x.AddRegistry<DatabaseRegistry>();
+                x.For<IBusControl>().Use(bus);
+                x.For<IEnterpriseBus>().Use<EnterpriseBus>();
+            });
 
             return container;
         }

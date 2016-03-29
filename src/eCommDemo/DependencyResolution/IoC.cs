@@ -16,11 +16,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-using System;
 using AutoMapper;
 using eCommDemo.Common;
-using eCommDemo.Controllers;
-using MassTransit;
 using StructureMap;
 
 namespace eCommDemo.DependencyResolution
@@ -30,22 +27,9 @@ namespace eCommDemo.DependencyResolution
         public static IContainer Initialize()
         {
 
-            
-
-            var bus = Bus.Factory.CreateUsingRabbitMq(x =>
-            {
-                var host = x.Host(new Uri("rabbitmq://localhost"), h =>
-                {
-                    //                    h.Username("guest");
-                    //                    h.Password("guest");
-                });
-            });
             var container = new Container(x =>
             {
-                x.For<IBusControl>().Use(bus);
-                x.For<IEnterpriseBus>().Use<EnterpriseBus>();
                 x.For<IMapper>().Use(m => NewMapperSetup().CreateMapper());
-                x.For<ICreateOrderMapper>().Use<CreateOrderMapper>();
             });
 
             return container;
@@ -60,24 +44,4 @@ namespace eCommDemo.DependencyResolution
         }
     }
 
-  
-    public interface IEnterpriseBus
-    {
-        void Publish<T>(T message) where T : class;
-    }
-
-    public class EnterpriseBus : IEnterpriseBus
-    {
-        private readonly IBusControl _busControl;
-
-        public EnterpriseBus(IBusControl busControl)
-        {
-            _busControl = busControl;
-        }
-
-        public void Publish<T>(T message) where T : class
-        {
-            _busControl.Publish<T>(message);
-        }
-    }
 }

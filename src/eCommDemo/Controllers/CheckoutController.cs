@@ -1,27 +1,13 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Net.Http;
 using System.Web.Mvc;
-using eComm.Domain;
 using eComm.Domain.Models;
 using eCommDemo.Common;
-using eCommDemo.DependencyResolution;
-using eCommDemo.Messages;
 
 namespace eCommDemo.Controllers
 {
     public class CheckoutController : BaseController
     {
-        private readonly IEnterpriseBus _bus;
-        private readonly ICreateOrderMapper _mapper;
-
-        public CheckoutController(IEnterpriseBus bus, ICreateOrderMapper mapper)
-        {
-            _bus = bus;
-            _mapper = mapper;
-        }
-
         [HttpGet]
         // GET: Checkout
         public ActionResult Index()
@@ -36,45 +22,28 @@ namespace eCommDemo.Controllers
             var cartToken = CookieUtil.GetCartToken();
 
             var paymenturl = $"cart/{cartToken}/payment";
-            var authrequest = HttpUtil.CreateRequest(paymenturl, HttpMethod.Post);
+            var authrequest = HttpUtil.CreateRequest(paymenturl, HttpMethod.Post, new CreatePayment {CardNumber = id.CcNumber, ExpDate=id.CcExpDate, Cvv = id.CcCvv});
             var auth = HttpUtil.Send<PaymentAuth>(authrequest);
 
-            var carturl = $"cart/{cartToken}";
-            var cartrequest = HttpUtil.CreateRequest(carturl, HttpMethod.Get);
-            var cart = HttpUtil.Send<Cart>(cartrequest);
+            var checkouturl = $"cart/{cartToken}/checkout";
+            var checkoutrequest = HttpUtil.CreateRequest(checkouturl, HttpMethod.Post,
+                new CustomerInfo
+                {
+                    Name = id.Name,
+                    Address = id.Address,
+                    State = id.State,
+                    City = id.City,
+                    Zip = id.Zip,
+                    Email = id.Email
+                });
+            var orderNumber = HttpUtil.Send<int>(checkoutrequest);
 
-            var message = _mapper.Map(id, cart);
-            _bus.Publish(message);
-            var model = new ThankYouModel {OrderNumber = "123456"};
+            var model = new ThankYouModel {OrderNumber = orderNumber.ToString()};
             //after checkout, clear cart cookie
 
             CookieUtil.GetCartToken(true);
 
             return View("ThankYou", model);
-        }
-    }
-
-    public interface ICreateOrderMapper
-    {
-        CreateOrder Map(CheckoutModel model, Cart cart);
-    }
-
-    public class CreateOrderMapper : ICreateOrderMapper
-    {
-        public CreateOrder Map(CheckoutModel model, Cart cart)
-        {
-            return new CreateOrder
-            {
-                AuthorizationCode = cart.AuthCode,
-                BillingAddress = new Address { City = model.City, Address1 = model.Address, PostalCode = model.Zip, StateRegion = model.State },
-                ShippingAddress = new Address { City = model.City, Address1 = model.Address, PostalCode = model.Zip, StateRegion = model.State },
-                LineItems = MapCart(cart)
-            };
-        }
-
-        private IList<Product> MapCart(Cart cart)
-        {
-            return cart.Items.Select(ci => new Product {SKU = ci.SKU, Quantity = ci.Quantity}).ToList();
         }
     }
 

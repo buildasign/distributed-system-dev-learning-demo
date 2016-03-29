@@ -46,6 +46,7 @@
     <Compile Include="Models\CartToken.cs" />
     <Compile Include="Models\CreateCartItem.cs" />
     <Compile Include="Models\CreatePayment.cs" />
+    <Compile Include="Models\CustomerInfo.cs" />
     <Compile Include="Models\PaymentAuth.cs" />
     <Compile Include="Models\UpdateCartItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
