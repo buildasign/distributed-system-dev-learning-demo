@@ -7,12 +7,12 @@ namespace eCommDemo.Common
 {
     public static class CookieUtil
     {
-        public static Guid GetCartToken()
+        public static Guid GetCartToken(bool newCart = false)
         {
             var cookieCartToken =  HttpContext.Current.Request.Cookies.Get("CartToken");
 
 
-            if (cookieCartToken == null)
+            if (cookieCartToken == null || newCart)
             {
                 var request = HttpUtil.CreateRequest("cart", HttpMethod.Post);
 

@@ -48,6 +48,8 @@ namespace eCommDemo.Controllers
             var model = new ThankYouModel {OrderNumber = "123456"};
             //after checkout, clear cart cookie
 
+            CookieUtil.GetCartToken(true);
+
             return View("ThankYou", model);
         }
     }
